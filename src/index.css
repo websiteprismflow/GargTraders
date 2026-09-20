@@ -1,0 +1,442 @@
+/* ==========================================================================
+   Garg Traders - Architectural Hardware Design System
+   Updated Typography (Manrope + Inter) and Warm Architectural Color System
+   ========================================================================== */
+
+:root {
+  /* ------------------------------------------------------------------------
+     Color System - Warm Architectural Palette
+     ------------------------------------------------------------------------ */
+  --bg-primary: #F7F5F0;          /* Warm off-white architectural background */
+  --bg-secondary: #EFECE4;        /* Soft stone surface for alternating sections */
+  --bg-surface: #FFFFFF;          /* Pure white for cards, modals, and inputs */
+  --bg-surface-elevated: #FFFFFF;
+  --bg-dark: #171717;             /* Deep obsidian for footer & dark elements */
+  --bg-dark-surface: #222222;
+  --bg-dark-card: #2A2A2A;
+
+  --text-primary: #171717;        /* Primary heading and high-emphasis text */
+  --text-secondary: #66635D;      /* Body paragraphs, specifications, descriptions */
+  --text-muted: #8F8C84;          /* Captions, subtle metadata */
+  --text-on-dark: #F7F5F0;        /* Text on dark surfaces */
+  --text-on-dark-muted: #A3A09A;  /* Secondary text on dark surfaces */
+
+  --accent-primary: #B08D57;      /* Muted antique-gold primary accent */
+  --accent-hover: #987542;        /* Dark gold for hover states */
+  --accent-light: rgba(176, 141, 87, 0.1); /* Subtle gold background tint */
+  --accent-border: #D1B88D;       /* Antique gold border highlight */
+
+  --border-subtle: #DEDAD1;       /* Subtle architectural border */
+  --border-medium: #DEDAD1;       /* Standard card and input border */
+  --border-dark: #2E2E2E;         /* Dark section border */
+
+  --danger: #B9382C;
+  --danger-light: #FBF0EF;
+  --success: #2E7D4E;
+  --success-light: #EEF7F2;
+
+  /* ------------------------------------------------------------------------
+     Typography System (Manrope Headings + Inter Body)
+     ------------------------------------------------------------------------ */
+  --font-heading: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* Backward compatibility aliases */
+  --font-serif: var(--font-heading);
+  --font-sans: var(--font-body);
+
+  /* Elevations */
+  --shadow-sm: 0 1px 3px rgba(23, 23, 23, 0.04);
+  --shadow-md: 0 4px 14px rgba(23, 23, 23, 0.05);
+  --shadow-lg: 0 12px 30px rgba(23, 23, 23, 0.07);
+  --shadow-hover: 0 16px 36px rgba(23, 23, 23, 0.10);
+
+  /* Clean architectural sharp corners */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 6px;
+  --radius-pill: 9999px;
+
+  /* Transitions */
+  --transition-fast: 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-smooth: 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-slow: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Layout */
+  --container-max: 1280px;
+  --header-height: 76px;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* --------------------------------------------------------------------------
+   Headings & Display Typography
+   -------------------------------------------------------------------------- */
+h1, h2, h3, h4, h5, h6, .font-heading {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+h1 {
+  font-size: clamp(2.25rem, 4.5vw, 3.75rem); /* ~36px mobile to 60px desktop */
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+h2 {
+  font-size: clamp(1.75rem, 3.2vw, 2.5rem);  /* ~28px mobile to 40px desktop */
+  font-weight: 700;
+  line-height: 1.22;
+}
+
+h3 {
+  font-size: clamp(1.25rem, 2vw, 1.65rem);   /* ~20px mobile to 26px desktop */
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+h4 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+p {
+  color: var(--text-secondary);
+  font-size: 1.025rem;
+  font-weight: 400;
+  line-height: 1.65;
+}
+
+@media (max-width: 768px) {
+  p {
+    font-size: 0.975rem;
+    line-height: 1.6;
+  }
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: var(--font-body);
+  transition: all var(--transition-fast);
+}
+
+input, textarea, select {
+  font-family: var(--font-body);
+}
+
+img, video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* --------------------------------------------------------------------------
+   Layout Utilities
+   -------------------------------------------------------------------------- */
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding: 0 2.5rem;
+  }
+}
+
+.section {
+  padding: 4.5rem 0;
+}
+
+@media (min-width: 992px) {
+  .section {
+    padding: 6.5rem 0;
+  }
+}
+
+.section-header {
+  margin-bottom: 3.25rem;
+}
+
+.section-header.text-center {
+  text-align: center;
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.section-eyebrow {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--accent-primary);
+  margin-bottom: 0.75rem;
+}
+
+.section-title {
+  margin-bottom: 1rem;
+}
+
+.section-subtitle {
+  font-size: 1.08rem;
+  line-height: 1.65;
+  color: var(--text-secondary);
+  max-width: 620px;
+}
+
+/* --------------------------------------------------------------------------
+   Common UI Buttons
+   -------------------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.75rem;
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-smooth);
+}
+
+.btn-primary {
+  background-color: var(--bg-dark);
+  color: #FFFFFF;
+  border: 1px solid var(--bg-dark);
+}
+
+.btn-primary:hover {
+  background-color: var(--accent-hover);
+  border-color: var(--accent-hover);
+  color: #FFFFFF;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(152, 117, 66, 0.25);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--border-medium);
+}
+
+.btn-secondary:hover {
+  border-color: var(--text-primary);
+  background-color: var(--bg-surface);
+  transform: translateY(-1px);
+}
+
+.btn-brass {
+  background-color: var(--accent-primary);
+  color: #FFFFFF;
+  border: 1px solid var(--accent-primary);
+}
+
+.btn-brass:hover {
+  background-color: var(--accent-hover);
+  border-color: var(--accent-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(152, 117, 66, 0.3);
+}
+
+.btn-sm {
+  padding: 0.45rem 0.95rem;
+  font-size: 0.8rem;
+}
+
+.btn-danger {
+  background-color: var(--danger);
+  color: #FFFFFF;
+}
+
+.btn-danger:hover {
+  background-color: #9C2E24;
+}
+
+/* --------------------------------------------------------------------------
+   Forms & Inputs
+   -------------------------------------------------------------------------- */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.form-label .required {
+  color: var(--danger);
+  margin-left: 0.25rem;
+}
+
+.form-input, .form-textarea, .form-select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.form-input:focus, .form-textarea:focus, .form-select:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px rgba(176, 141, 87, 0.15);
+}
+
+.form-textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* --------------------------------------------------------------------------
+   Modal Backdrop
+   -------------------------------------------------------------------------- */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(23, 23, 23, 0.65);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.modal-content {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  width: 100%;
+  max-width: 540px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-lg);
+  animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-header {
+  padding: 1.5rem 1.75rem;
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal-body {
+  padding: 1.75rem;
+}
+
+.modal-footer {
+  padding: 1.25rem 1.75rem;
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+/* --------------------------------------------------------------------------
+   Toast Notifications
+   -------------------------------------------------------------------------- */
+.toast-container {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  z-index: 2000;
+  pointer-events: none;
+}
+
+.toast {
+  pointer-events: auto;
+  min-width: 280px;
+  max-width: 420px;
+  padding: 1rem 1.25rem;
+  background-color: var(--bg-dark);
+  color: #FFFFFF;
+  border-left: 3px solid var(--accent-primary);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-lg);
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  animation: toastSlideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.toast.toast-error {
+  border-left-color: var(--danger);
+}
+
+/* Keyframes */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes toastSlideIn {
+  from { opacity: 0; transform: translateY(12px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
