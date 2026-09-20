@@ -121,8 +121,11 @@ export default function ProductDetailPage() {
                 Model: {product.model_number}
               </span>
               <h1 className="product-detail-title">{product.name}</h1>
-              <p className="product-detail-desc">{product.description}</p>
+              {product.description && (
+                <p className="product-detail-desc">{product.description}</p>
+              )}
             </div>
+
 
             {/* Specifications Table - only non-empty fields */}
             <div>

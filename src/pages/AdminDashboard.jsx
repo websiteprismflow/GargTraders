@@ -276,7 +276,7 @@ export default function AdminDashboard({ onOpenLoginModal }) {
     if (!prodForm.model_number.trim()) return toast.error('Model Number is required.');
     if (!prodForm.metal_material.trim()) return toast.error('Metal / Material is required.');
     if (!prodForm.size.trim()) return toast.error('Size is required.');
-    if (!prodForm.description.trim()) return toast.error('Description is required.');
+
 
     try {
       if (editingProduct) {
@@ -858,17 +858,17 @@ export default function AdminDashboard({ onOpenLoginModal }) {
 
                   <div className="form-group">
                     <label className="form-label">
-                      Description <span className="required">*</span>
+                      Description (Optional)
                     </label>
                     <textarea
                       className="form-textarea"
                       rows="3"
                       value={prodForm.description}
                       onChange={(e) => setProdForm({ ...prodForm, description: e.target.value })}
-                      placeholder="Comprehensive architectural product description..."
-                      required
+                      placeholder="Architectural product description (optional)..."
                     />
                   </div>
+
 
                   {/* 19. UNLIMITED PRODUCT MEDIA UPLOADS & REORDERING */}
                   <div className="form-group">

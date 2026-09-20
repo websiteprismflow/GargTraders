@@ -196,7 +196,7 @@ export async function createSupabaseProduct(prodData) {
       metal_material: prodData.metal_material.trim(),
       size: prodData.size.trim(),
       color: prodData.color ? prodData.color.trim() : null,
-      description: prodData.description.trim()
+      description: prodData.description ? prodData.description.trim() : ''
     })
     .select()
     .single();
@@ -232,10 +232,11 @@ export async function updateSupabaseProduct(id, prodData) {
       metal_material: prodData.metal_material.trim(),
       size: prodData.size.trim(),
       color: prodData.color ? prodData.color.trim() : null,
-      description: prodData.description.trim(),
+      description: prodData.description ? prodData.description.trim() : '',
       updated_at: new Date().toISOString()
     })
     .eq('id', id);
+
 
   if (error) throw error;
 

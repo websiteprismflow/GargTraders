@@ -181,7 +181,8 @@ router.post('/', authenticateToken, async (req, res) => {
     if (!model_number || !model_number.trim()) return res.status(400).json({ error: 'Model Number is required.' });
     if (!metal_material || !metal_material.trim()) return res.status(400).json({ error: 'Metal / Material is required.' });
     if (!size || !size.trim()) return res.status(400).json({ error: 'Size is required.' });
-    if (!description || !description.trim()) return res.status(400).json({ error: 'Description is required.' });
+
+    const cleanDescription = description ? description.trim() : '';
 
     if (isSupabaseConfigured && supabase) {
       const { data: newProd, error: insertErr } = await supabase
@@ -193,10 +194,11 @@ router.post('/', authenticateToken, async (req, res) => {
           metal_material: metal_material.trim(),
           size: size.trim(),
           color: color ? color.trim() : null,
-          description: description.trim()
+          description: cleanDescription
         })
         .select('*, categories(name)')
         .single();
+
 
       if (!insertErr && newProd) {
         let insertedMedia = [];
@@ -244,8 +246,9 @@ router.post('/', authenticateToken, async (req, res) => {
       metal_material.trim(),
       size.trim(),
       color ? color.trim() : null,
-      description.trim()
+      cleanDescription
     );
+
 
     const productId = result.lastInsertRowid;
 
@@ -307,7 +310,8 @@ router.put('/:id', authenticateToken, async (req, res) => {
     if (!model_number || !model_number.trim()) return res.status(400).json({ error: 'Model Number is required.' });
     if (!metal_material || !metal_material.trim()) return res.status(400).json({ error: 'Metal / Material is required.' });
     if (!size || !size.trim()) return res.status(400).json({ error: 'Size is required.' });
-    if (!description || !description.trim()) return res.status(400).json({ error: 'Description is required.' });
+
+    const cleanDescription = description ? description.trim() : '';
 
     if (isSupabaseConfigured && supabase) {
       const { data: updatedProd, error: updErr } = await supabase
@@ -319,7 +323,7 @@ router.put('/:id', authenticateToken, async (req, res) => {
           metal_material: metal_material.trim(),
           size: size.trim(),
           color: color ? color.trim() : null,
-          description: description.trim(),
+          description: cleanDescription,
           updated_at: new Date().toISOString()
         })
         .eq('id', id)
@@ -383,9 +387,10 @@ router.put('/:id', authenticateToken, async (req, res) => {
       metal_material.trim(),
       size.trim(),
       color ? color.trim() : null,
-      description.trim(),
+      cleanDescription,
       id
     );
+
 
     // If media array is provided, synchronize media
     if (Array.isArray(media)) {

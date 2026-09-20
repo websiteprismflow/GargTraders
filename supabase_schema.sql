@@ -33,8 +33,9 @@ CREATE TABLE IF NOT EXISTS public.products (
     metal_material TEXT NOT NULL,
     size TEXT NOT NULL,
     color TEXT,
-    description TEXT NOT NULL,
+    description TEXT,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
+
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 

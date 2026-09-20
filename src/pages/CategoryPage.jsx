@@ -126,8 +126,11 @@ export default function CategoryPage() {
                   <span className="product-category-tag">{category.name}</span>
                   <h3 className="product-card-title">{product.name}</h3>
                   <div className="product-material-text">{product.metal_material}</div>
-                  <p className="product-card-desc">{product.description}</p>
+                  {product.description && (
+                    <p className="product-card-desc">{product.description}</p>
+                  )}
                   <div style={{ marginTop: 'auto', paddingTop: '1rem' }}>
+
                     <span className="btn btn-secondary btn-sm" style={{ width: '100%' }}>
                       <span>View Product</span>
                       <ChevronRight size={14} />

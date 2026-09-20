@@ -36,8 +36,9 @@ db.exec(`
     metal_material TEXT NOT NULL,
     size TEXT NOT NULL,
     color TEXT,
-    description TEXT NOT NULL,
+    description TEXT,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE RESTRICT
   );
