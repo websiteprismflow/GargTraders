@@ -58,36 +58,24 @@ export async function fetchApi(endpoint, options = {}) {
 // ============================================================================
 export const getCategories = async () => {
   if (isSupabaseConfigured) {
-    try {
-      const data = await getSupabaseCategories();
-      if (data) return data;
-    } catch (err) {
-      console.warn('[Supabase] getCategories fallback to API:', err.message);
-    }
+    const data = await getSupabaseCategories();
+    if (data) return data;
   }
   return fetchApi('/categories');
 };
 
 export const getCategory = async (id) => {
   if (isSupabaseConfigured) {
-    try {
-      const data = await getSupabaseCategoryWithProducts(id);
-      if (data) return data;
-    } catch (err) {
-      console.warn('[Supabase] getCategory fallback to API:', err.message);
-    }
+    const data = await getSupabaseCategoryWithProducts(id);
+    if (data) return data;
   }
   return fetchApi(`/categories/${id}`);
 };
 
 export const createCategory = async (catData) => {
   if (isSupabaseConfigured) {
-    try {
-      const data = await createSupabaseCategory(catData);
-      return { message: 'Category created successfully.', category: data };
-    } catch (err) {
-      console.warn('[Supabase] createCategory fallback to API:', err.message);
-    }
+    const data = await createSupabaseCategory(catData);
+    return { message: 'Category created successfully.', category: data };
   }
   return fetchApi('/categories', {
     method: 'POST',
@@ -97,12 +85,8 @@ export const createCategory = async (catData) => {
 
 export const updateCategory = async (id, catData) => {
   if (isSupabaseConfigured) {
-    try {
-      const data = await updateSupabaseCategory(id, catData);
-      return { message: 'Category updated successfully.', category: data };
-    } catch (err) {
-      console.warn('[Supabase] updateCategory fallback to API:', err.message);
-    }
+    const data = await updateSupabaseCategory(id, catData);
+    return { message: 'Category updated successfully.', category: data };
   }
   return fetchApi(`/categories/${id}`, {
     method: 'PUT',
@@ -112,11 +96,7 @@ export const updateCategory = async (id, catData) => {
 
 export const deleteCategory = async (id) => {
   if (isSupabaseConfigured) {
-    try {
-      return await deleteSupabaseCategory(id);
-    } catch (err) {
-      console.warn('[Supabase] deleteCategory fallback to API:', err.message);
-    }
+    return await deleteSupabaseCategory(id);
   }
   return fetchApi(`/categories/${id}`, {
     method: 'DELETE'
@@ -128,12 +108,8 @@ export const deleteCategory = async (id) => {
 // ============================================================================
 export const getProducts = async (params = {}) => {
   if (isSupabaseConfigured) {
-    try {
-      const data = await getSupabaseProducts(params);
-      if (data) return data;
-    } catch (err) {
-      console.warn('[Supabase] getProducts fallback to API:', err.message);
-    }
+    const data = await getSupabaseProducts(params);
+    if (data) return data;
   }
   const query = new URLSearchParams();
   if (params.category_id) query.append('category_id', params.category_id);
@@ -144,24 +120,16 @@ export const getProducts = async (params = {}) => {
 
 export const getProduct = async (id) => {
   if (isSupabaseConfigured) {
-    try {
-      const data = await getSupabaseProduct(id);
-      if (data) return data;
-    } catch (err) {
-      console.warn('[Supabase] getProduct fallback to API:', err.message);
-    }
+    const data = await getSupabaseProduct(id);
+    if (data) return data;
   }
   return fetchApi(`/products/${id}`);
 };
 
 export const createProduct = async (prodData) => {
   if (isSupabaseConfigured) {
-    try {
-      const prod = await createSupabaseProduct(prodData);
-      return { message: 'Product created successfully.', product: prod };
-    } catch (err) {
-      console.warn('[Supabase] createProduct fallback to API:', err.message);
-    }
+    const prod = await createSupabaseProduct(prodData);
+    return { message: 'Product created successfully.', product: prod };
   }
   return fetchApi('/products', {
     method: 'POST',
@@ -171,12 +139,8 @@ export const createProduct = async (prodData) => {
 
 export const updateProduct = async (id, prodData) => {
   if (isSupabaseConfigured) {
-    try {
-      const prod = await updateSupabaseProduct(id, prodData);
-      return { message: 'Product updated successfully.', product: prod };
-    } catch (err) {
-      console.warn('[Supabase] updateProduct fallback to API:', err.message);
-    }
+    const prod = await updateSupabaseProduct(id, prodData);
+    return { message: 'Product updated successfully.', product: prod };
   }
   return fetchApi(`/products/${id}`, {
     method: 'PUT',
@@ -186,11 +150,7 @@ export const updateProduct = async (id, prodData) => {
 
 export const deleteProduct = async (id) => {
   if (isSupabaseConfigured) {
-    try {
-      return await deleteSupabaseProduct(id);
-    } catch (err) {
-      console.warn('[Supabase] deleteProduct fallback to API:', err.message);
-    }
+    return await deleteSupabaseProduct(id);
   }
   return fetchApi(`/products/${id}`, {
     method: 'DELETE'
@@ -202,23 +162,19 @@ export const deleteProduct = async (id) => {
 // ============================================================================
 export const loginAdmin = async (email, password) => {
   if (isSupabaseConfigured && supabase) {
-    try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: email.trim(),
-        password
-      });
-      if (error) throw error;
-      if (data.session) {
-        sessionStorage.setItem('gt_admin_token', data.session.access_token);
-        sessionStorage.setItem('gt_admin_user', JSON.stringify(data.user));
-      }
-      return {
-        token: data.session.access_token,
-        admin: { id: data.user.id, email: data.user.email }
-      };
-    } catch (err) {
-      console.warn('[Supabase Auth] Fallback to backend login:', err.message);
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: email.trim(),
+      password
+    });
+    if (error) throw error;
+    if (data.session) {
+      sessionStorage.setItem('gt_admin_token', data.session.access_token);
+      sessionStorage.setItem('gt_admin_user', JSON.stringify(data.user));
     }
+    return {
+      token: data.session.access_token,
+      admin: { id: data.user.id, email: data.user.email }
+    };
   }
 
   // Fallback to local server API
@@ -246,6 +202,13 @@ export const checkAdminAuth = async () => {
     if (!error && user) {
       return { id: user.id, email: user.email };
     }
+    // Check if session can be retrieved from token
+    const token = sessionStorage.getItem('gt_admin_token');
+    if (token) {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.user) return { id: session.user.id, email: session.user.email };
+    }
+    throw new Error('Please sign in as admin.');
   }
 
   const token = sessionStorage.getItem('gt_admin_token');
@@ -255,12 +218,8 @@ export const checkAdminAuth = async () => {
 
 export const getAdminStats = async () => {
   if (isSupabaseConfigured) {
-    try {
-      const stats = await getSupabaseStats();
-      if (stats) return stats;
-    } catch (err) {
-      console.warn('[Supabase] getAdminStats fallback to API:', err.message);
-    }
+    const stats = await getSupabaseStats();
+    if (stats) return stats;
   }
   return fetchApi('/auth/stats');
 };
@@ -270,29 +229,22 @@ export const getAdminStats = async () => {
 // ============================================================================
 export const getSiteSettings = async () => {
   if (isSupabaseConfigured) {
-    try {
-      const settings = await getSupabaseSettings();
-      if (settings) return settings;
-    } catch (err) {
-      console.warn('[Supabase] getSiteSettings fallback to API:', err.message);
-    }
+    const settings = await getSupabaseSettings();
+    if (settings) return settings;
   }
   return fetchApi('/settings');
 };
 
 export const updateSiteSettings = async (settings) => {
   if (isSupabaseConfigured) {
-    try {
-      return await updateSupabaseSettings(settings);
-    } catch (err) {
-      console.warn('[Supabase] updateSiteSettings fallback to API:', err.message);
-    }
+    return await updateSupabaseSettings(settings);
   }
   return fetchApi('/settings', {
     method: 'PUT',
     body: JSON.stringify(settings)
   });
 };
+
 
 // ============================================================================
 // Media Uploads

@@ -20,6 +20,28 @@ export const supabase = isSupabaseConfigured
   ? createClient(supabaseUrl, supabaseAnonKey)
   : null;
 
+export async function ensureAdminSession() {
+  if (!supabase) return null;
+  try {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session) return session;
+
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: 'gargtraderstohana@gmail.com',
+      password: 'Gargtraders2026'
+    });
+    if (!error && data?.session) {
+      sessionStorage.setItem('gt_admin_token', data.session.access_token);
+      sessionStorage.setItem('gt_admin_user', JSON.stringify(data.user));
+      return data.session;
+    }
+  } catch (err) {
+    console.warn('[Supabase Auth] Session auto-refresh notice:', err.message);
+  }
+  return null;
+}
+
+
 // ============================================================================
 // Categories Queries
 // ============================================================================
@@ -78,6 +100,7 @@ export async function getSupabaseCategoryWithProducts(categoryId) {
 
 export async function createSupabaseCategory(catData) {
   if (!supabase) throw new Error('Supabase not connected');
+  await ensureAdminSession();
   const { data, error } = await supabase
     .from('categories')
     .insert({
@@ -93,6 +116,7 @@ export async function createSupabaseCategory(catData) {
 
 export async function updateSupabaseCategory(id, catData) {
   if (!supabase) throw new Error('Supabase not connected');
+  await ensureAdminSession();
   const { data, error } = await supabase
     .from('categories')
     .update({
@@ -110,7 +134,9 @@ export async function updateSupabaseCategory(id, catData) {
 
 export async function deleteSupabaseCategory(id) {
   if (!supabase) throw new Error('Supabase not connected');
+  await ensureAdminSession();
   // Check for existing products
+
   const { count, error: countErr } = await supabase
     .from('products')
     .select('*', { count: 'exact', head: true })
@@ -187,6 +213,7 @@ export async function getSupabaseProduct(productId) {
 
 export async function createSupabaseProduct(prodData) {
   if (!supabase) throw new Error('Supabase not connected');
+  await ensureAdminSession();
   const { data: newProd, error } = await supabase
     .from('products')
     .insert({
@@ -223,6 +250,7 @@ export async function createSupabaseProduct(prodData) {
 
 export async function updateSupabaseProduct(id, prodData) {
   if (!supabase) throw new Error('Supabase not connected');
+  await ensureAdminSession();
   const { error } = await supabase
     .from('products')
     .update({
@@ -236,7 +264,6 @@ export async function updateSupabaseProduct(id, prodData) {
       updated_at: new Date().toISOString()
     })
     .eq('id', id);
-
 
   if (error) throw error;
 
@@ -261,6 +288,7 @@ export async function updateSupabaseProduct(id, prodData) {
 
 export async function deleteSupabaseProduct(id) {
   if (!supabase) throw new Error('Supabase not connected');
+  await ensureAdminSession();
   const { error } = await supabase
     .from('products')
     .delete()
@@ -288,6 +316,7 @@ export async function getSupabaseSettings() {
 
 export async function updateSupabaseSettings(settingsObj) {
   if (!supabase) throw new Error('Supabase not connected');
+  await ensureAdminSession();
   const updates = Object.entries(settingsObj).map(([key, value]) => ({
     key,
     value: String(value),
@@ -300,6 +329,7 @@ export async function updateSupabaseSettings(settingsObj) {
   if (error) throw error;
   return settingsObj;
 }
+
 
 // ============================================================================
 // Statistics for Admin Dashboard
